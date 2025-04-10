@@ -2,6 +2,7 @@ package router
 
 import (
 	"blogs/internal/controllers"
+	"blogs/internal/middleware"
 
 	"github.com/gin-gonic/gin"
 )
@@ -10,6 +11,7 @@ func RegisterUserRoutes(router *gin.Engine) {
 	router.POST("/login", controllers.Login)
 
 	userRouter := router.Group("/users")
+	userRouter.Use(middleware.JWTAuthMiddleware())
 	{
 		userRouter.GET("/", controllers.GetUsers)
 		userRouter.GET("/:id", controllers.GetUserByID)
